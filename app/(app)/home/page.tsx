@@ -1,8 +1,10 @@
+import { Typography } from "@/components/ui/typography";
+
 export default function Page() {
     return (
-        <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
+        <div className="flex flex-1 flex-col gap-4 p-4 pt-12">
             <div>
-                Home
+                <Typography variant="h3">Home</Typography>
             </div>
             <div className="grid auto-rows-min gap-4 md:grid-cols-3">
                 <div className="bg-muted/50 aspect-video rounded-xl" />
