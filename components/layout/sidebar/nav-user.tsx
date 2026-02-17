@@ -8,6 +8,7 @@ import {
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
@@ -19,21 +20,15 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar"
+import { useGlobalStore } from "@/stores/use-global-store"
 import { useUser, SignOutButton, UserProfile } from "@clerk/nextjs"
-import { ChevronsUpDownIcon, SparklesIcon, BadgeCheckIcon, CreditCardIcon, BellIcon, LogOutIcon, UserIcon } from "lucide-react"
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog"
+import { ChevronsUpDownIcon, SparklesIcon, BadgeCheckIcon, CreditCardIcon, BellIcon, LogOutIcon, UserIcon, Moon, Sun, MonitorCog, Check, ChevronRight } from "lucide-react"
 import Link from "next/link"
 
 export function NavUser() {
   const { isMobile } = useSidebar()
   const { user } = useUser()
+  const { theme, setTheme } = useGlobalStore();
 
   if (!user) return null
 
@@ -76,19 +71,58 @@ export function NavUser() {
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <Link href="/settings">
-              <DropdownMenuItem>
-                <UserIcon />
-                Account
-              </DropdownMenuItem>
-            </Link>
-            <SignOutButton>
-              <DropdownMenuItem variant="destructive">
-                <LogOutIcon
-                />
-                Log out
-              </DropdownMenuItem>
-            </SignOutButton>
+            <DropdownMenuGroup>
+              <DropdownMenuLabel>Preference</DropdownMenuLabel>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <DropdownMenuItem>
+                    {theme === 'light' || theme === 'dark' ? <>
+                      <Sun className="rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+                      <Moon className="absolute rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+                    </> : <>
+                      <MonitorCog className="rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+                      <MonitorCog className="absolute rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+                    </>}
+                    <div className="w-full">Theme</div>
+                    <ChevronRight />
+                  </DropdownMenuItem>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent side="right" align="start">
+                  <DropdownMenuItem onClick={() => setTheme("light")}>
+                    <Sun className="mr-2 h-4 w-4" />
+                    <span>Light</span>
+                    {theme === 'light' && <Check className="ml-auto h-4 w-4" />}
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => setTheme("dark")}>
+                    <Moon className="mr-2 h-4 w-4" />
+                    <span>Dark</span>
+                    {theme === 'dark' && <Check className="ml-auto h-4 w-4" />}
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => setTheme("system")}>
+                    <MonitorCog className="mr-2 h-4 w-4" />
+                    <span>System</span>
+                    {theme === 'system' && <Check className="ml-auto h-4 w-4" />}
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </DropdownMenuGroup>
+            <DropdownMenuSeparator />
+            <DropdownMenuGroup>
+              <DropdownMenuLabel>My Account</DropdownMenuLabel>
+              <Link href="/settings">
+                <DropdownMenuItem>
+                  <UserIcon />
+                  Account
+                </DropdownMenuItem>
+              </Link>
+              <SignOutButton>
+                <DropdownMenuItem variant="destructive">
+                  <LogOutIcon
+                  />
+                  Log out
+                </DropdownMenuItem>
+              </SignOutButton>
+            </DropdownMenuGroup>
           </DropdownMenuContent>
         </DropdownMenu>
       </SidebarMenuItem>

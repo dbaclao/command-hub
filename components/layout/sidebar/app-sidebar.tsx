@@ -4,7 +4,7 @@ import * as React from "react"
 
 import { NavMain } from "@/components/layout/sidebar/nav-main"
 import { NavUser } from "@/components/layout/sidebar/nav-user"
-import { TeamSwitcher } from "@/components/layout/sidebar/team-switcher"
+import { NavSwitcher } from "@/components/layout/sidebar/nav-switcher"
 import {
   Sidebar,
   SidebarContent,
@@ -19,11 +19,10 @@ import {
 } from "lucide-react"
 
 const data = {
-  teams: [
+  system: [
     {
       name: "Command Hub",
       logo: Command,
-      plan: "Personal",
     },
   ],
   navMain: [
@@ -46,7 +45,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
-        <TeamSwitcher teams={data.teams} />
+        <NavSwitcher system={data.system} />
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />
